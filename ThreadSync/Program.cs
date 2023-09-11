@@ -26,10 +26,10 @@ namespace ThreadSync
             AutoResetEvent are = new AutoResetEvent(true);
 
             ThreadPool.QueueUserWorkItem(MethodGenerate, are);
-            are.WaitOne();
+           
 
             ThreadPool.QueueUserWorkItem(MethodAdd, are);
-            are.WaitOne();
+            
 
             ThreadPool.QueueUserWorkItem(MethodMultiply, are);
 
