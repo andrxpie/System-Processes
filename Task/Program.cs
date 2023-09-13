@@ -49,9 +49,16 @@ namespace Task_Class
 
             // Task 5
 
+            Console.Write("default: { ");
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (i < arr.Length - 1) Console.Write(arr[i] + ", ");
+                else Console.WriteLine(arr[i] + " }");
+            }
+
             Task task = Task.Run(ClearArrDoubles).ContinueWith(SortArr).ContinueWith(SelectValue);
-           
             task.Wait();
+           
 
             Console.ReadKey();
         }
@@ -129,28 +136,21 @@ namespace Task_Class
 
         static void ClearArrDoubles()
         {
-            Console.Write("{ ");
+            arr = arr.Distinct().ToArray();
+
+            Console.Write("doubles cleared: { ");
             for (int i = 0; i < arr.Length; i++)
             {
                 if (i < arr.Length - 1) Console.Write(arr[i] + ", ");
                 else Console.WriteLine(arr[i] + " }");
             }
-
-            arr = arr.Distinct().ToArray();
         }
 
         static void SortArr(Task task)
         {
-            Console.Write("{ ");
-            for (int i = 0; i < arr.Length; i++)
-            {
-                if (i < arr.Length - 1) Console.Write(arr[i] + ", ");
-                else Console.WriteLine(arr[i] + " }");
-            }
-
             arr = arr.Order().ToArray();
 
-            Console.Write("{ ");
+            Console.Write("sorted: { ");
             for (int i = 0; i < arr.Length; i++)
             {
                 if (i < arr.Length - 1) Console.Write(arr[i] + ", ");
