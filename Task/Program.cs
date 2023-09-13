@@ -41,7 +41,7 @@ namespace Task_Class
             //for (int i = 0; i < taskArr.Length; i++)
             //{
             //    taskArr[i].Start();
-            //    taskArr[i].Wait();
+          
             //}
 
             //Console.ReadKey();
