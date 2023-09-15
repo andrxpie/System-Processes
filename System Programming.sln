@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadPool", "ThreadPool\Th
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadSync", "ThreadSync\ThreadSync.csproj", "{5DC81A42-AFA0-404D-A524-37EEC9C2A90B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task Class", "Task\Task Class.csproj", "{779066A4-5094-4394-B3EB-E2FFAB522667}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task Class", "Task\Task Class.csproj", "{779066A4-5094-4394-B3EB-E2FFAB522667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLINQ", "PLINQ\PLINQ.csproj", "{542892E1-36A1-4C61-B9CB-583C4C427681}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{779066A4-5094-4394-B3EB-E2FFAB522667}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{779066A4-5094-4394-B3EB-E2FFAB522667}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{779066A4-5094-4394-B3EB-E2FFAB522667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{542892E1-36A1-4C61-B9CB-583C4C427681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{542892E1-36A1-4C61-B9CB-583C4C427681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{542892E1-36A1-4C61-B9CB-583C4C427681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{542892E1-36A1-4C61-B9CB-583C4C427681}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
