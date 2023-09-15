@@ -14,26 +14,12 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1000">
-
-    <DockPanel>
-        <TabControl x:Name="tabs" TabStripPlacement="Left" DockPanel.Dock="Left">
-            <TabItem Header="Processes" IsSelected="True"/>
-            <TabItem Header="Performance"/>
-            <TabItem Header="App history"/>
-            <TabItem Header="StartUp apps"/>
-            <TabItem Header="Users"/>
-            <TabItem Header="Details"/>
-            <TabItem Header="Services"/>
-        </TabControl>
-
-        <DataGrid x:Name="grid" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Process Name" Binding="{Binding ProcessName}" />
-                <DataGridTextColumn Header="PID" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Total Processor Time" Binding="{Binding TotalProcessorTime}" />
-                <DataGridTextColumn Header="Priority" Binding="{Binding PriorityClass}" />
-                <DataGridTextColumn Header="User Name" Binding="{Binding UserName}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+    <DataGrid x:Name="grid" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Process Name" Binding="{Binding ProcessName}" />
+            <DataGridTextColumn Header="Time start" Binding="{Binding StartTime}" />
+            <DataGridTextColumn Header="Status" Binding="{Binding Responding}" />
+            <DataGridTextColumn Header="Priority" Binding="{Binding PriorityClass}" />
+        </DataGrid.Columns>
+    </DataGrid>
 </Window>
