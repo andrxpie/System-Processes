@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadSync", "ThreadSync\Th
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task Class", "Task\Task Class.csproj", "{779066A4-5094-4394-B3EB-E2FFAB522667}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLINQ", "PLINQ\PLINQ.csproj", "{542892E1-36A1-4C61-B9CB-583C4C427681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLINQ", "PLINQ\PLINQ.csproj", "{542892E1-36A1-4C61-B9CB-583C4C427681}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async Await - task 1", "Async Await - task 1\Async Await - task 1.csproj", "{82CEE8E0-31DD-4BCA-8291-45C0A0464CCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Async Await - task 2", "Async Await - task 2\Async Await - task 2.csproj", "{BE7D8BAF-7877-4EC8-A77C-3E35AAE4709E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{542892E1-36A1-4C61-B9CB-583C4C427681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{542892E1-36A1-4C61-B9CB-583C4C427681}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{542892E1-36A1-4C61-B9CB-583C4C427681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82CEE8E0-31DD-4BCA-8291-45C0A0464CCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82CEE8E0-31DD-4BCA-8291-45C0A0464CCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82CEE8E0-31DD-4BCA-8291-45C0A0464CCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82CEE8E0-31DD-4BCA-8291-45C0A0464CCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE7D8BAF-7877-4EC8-A77C-3E35AAE4709E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE7D8BAF-7877-4EC8-A77C-3E35AAE4709E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE7D8BAF-7877-4EC8-A77C-3E35AAE4709E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE7D8BAF-7877-4EC8-A77C-3E35AAE4709E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
