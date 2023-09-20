@@ -1,0 +1,40 @@
+﻿<Window x:Class="Explorer_Search.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Explorer_Search"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MainWindow" Height="460" Width="800">
+    <StackPanel Margin="10">
+        <TextBlock Text="Word to search" HorizontalAlignment="Left" FontSize="16"/>
+        <TextBox x:Name="searchWord" VerticalContentAlignment="Bottom" Margin="0 0 0 10"/>
+        
+        <TextBlock Text="Dictionary" HorizontalAlignment="Left" FontSize="16"/>
+        <TextBox x:Name="searchFilePath" Text="{Binding To}" VerticalContentAlignment="Bottom" IsReadOnly="True" Margin="0 0 0 10"/>
+        <Button Content="Choose" Click="ChooseButton" Margin="0 0 0 10"/>
+
+        <Button Content="Search" Click="SearchButton"/>
+
+        <TextBlock Text="File name" HorizontalAlignment="Left" FontSize="16" Margin="0 10 0 0"/>
+        <TextBox x:Name="resultFileName" VerticalContentAlignment="Bottom" IsReadOnly="True" Margin="0 0 0 10"/>
+        
+        <TextBlock Text="File path" HorizontalAlignment="Left" FontSize="16"/>
+        <TextBox x:Name="resultFilePath" VerticalContentAlignment="Bottom" IsReadOnly="True" Margin="0 0 0 10"/>
+        
+        <TextBlock Text="Count of duplicates" HorizontalAlignment="Left" FontSize="16"/>
+        <TextBox x:Name="resultWordDuplicates" VerticalContentAlignment="Bottom" IsReadOnly="True" Margin="0 0 0 10"/>
+
+        <ProgressBar x:Name="pbar" Height="15"/>
+
+        <ListView x:Name="resultList" Margin="0 20"/>
+    </StackPanel>
+</Window>
