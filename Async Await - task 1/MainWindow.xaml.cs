@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,27 +13,37 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Task_Manager_Lite
+namespace Async_Await___task_1
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        Timer timer = new Timer(UpdateTasks);
-        public int UpdateInterval { get; set; } = 1000;
-        public static DataGrid g { get; set; } = new();
+        public static int x;
         public MainWindow()
         {
             InitializeComponent();
-
-            grid.ItemsSource = Process.GetProcesses();
-            timer.Change(10, UpdateInterval);
         }
 
-        private static void UpdateTasks(object obj)
+        private async void GetFactorialBtn(object sender, RoutedEventArgs e)
         {
-            g.ItemsSource = Process.GetProcesses();
+            x = Convert.ToInt32(tbx.Text);
+            int res = await GetFactorial();
+            list.Items.Add(res);
+        }
+
+        private async Task<int> GetFactorial()
+        {
+            return await Task.Run(() =>
+            {
+                int factorial = 1;
+
+                for (int i = 1; i <= x; i++)
+                    factorial *= i;
+
+                return factorial;
+            });
         }
     }
 }
