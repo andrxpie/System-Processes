@@ -14,12 +14,23 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1000">
-    <DataGrid x:Name="grid" AutoGenerateColumns="False" IsReadOnly="True">
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="Process Name" Binding="{Binding ProcessName}" />
-            <DataGridTextColumn Header="Time start" Binding="{Binding StartTime}" />
-            <DataGridTextColumn Header="Status" Binding="{Binding Responding}" />
-            <DataGridTextColumn Header="Priority" Binding="{Binding PriorityClass}" />
-        </DataGrid.Columns>
-    </DataGrid>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Height="40" Margin="0 0 0 10">
+            <Button Content="1 sec" DockPanel.Dock="Left" Margin="5 0" Width="80" Click="SetIntervalTo1"/>
+            <Button Content="2 sec" DockPanel.Dock="Left" Margin="5 0" Width="80" Click="SetIntervalTo2"/>
+            <Button Content="3 sec" DockPanel.Dock="Left" Margin="5 0" Width="80" Click="SetIntervalTo3"/>
+
+            <Button Content="Set" Margin="70 0 0 0" Width="80" Click="SetIntervalToValue"/>
+            <TextBlock Margin="5 0 10 0" VerticalAlignment="Center" FontSize="20" Text="Your's value (sec):"/>
+            <TextBox x:Name="tbx" Margin="0 0 10 0" FontSize="20" VerticalAlignment="Center"/>
+        </DockPanel>
+        <DataGrid x:Name="grid" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding g.ItemsSource}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Process Name" Binding="{Binding ProcessName}" />
+                <DataGridTextColumn Header="Time start" Binding="{Binding StartTime}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Responding}" />
+                <DataGridTextColumn Header="Priority" Binding="{Binding PriorityClass}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
 </Window>
