@@ -1,0 +1,59 @@
+﻿<Window x:Class="HyperThreading___Async.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HyperThreading___Async"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel Margin="10">
+        <UniformGrid Columns="3" DockPanel.Dock="Top">
+            <DockPanel Margin="0 0 10 0">
+                <TextBlock DockPanel.Dock="Left" Text="From: " VerticalAlignment="Bottom" FontSize="20"/>
+                <TextBox x:Name="fromTbx" FontSize="20"/>
+            </DockPanel>
+            
+            <DockPanel Margin="0 0 10 0">
+                <TextBlock DockPanel.Dock="Left" Text="To: " VerticalAlignment="Bottom" FontSize="20"/>
+                <TextBox x:Name="toTbx" FontSize="20"/>
+            </DockPanel>
+
+            <Button Content="Start" Click="StartButton"/>
+        </UniformGrid>
+
+        <UniformGrid DockPanel.Dock="Top" Columns="3" Margin="0 20 0 0">
+            <StackPanel Margin="0 0 5 0">
+                <TextBlock DockPanel.Dock="Left" Text="Task 1" HorizontalAlignment="Center" FontSize="20"/>
+                <Button x:Name="stop1" Content="Stop" Margin="0 5" Click="StopButton1"/>
+                <Button x:Name="pause1" Content="Pause" Margin="0 5" Click="PauseButton1"/>
+                <Button x:Name="resume1" Content="Resume" Margin="0 5" Click="ResumeButton1"/>
+            </StackPanel>
+
+            <StackPanel Margin="0 0 5 0">
+                <TextBlock DockPanel.Dock="Left" Text="Task 2" HorizontalAlignment="Center" FontSize="20"/>
+                <Button x:Name="stop2" Content="Stop" Margin="0 5"/>
+                <Button x:Name="pause2" Content="Pause" Margin="0 5"/>
+                <Button x:Name="resume2" Content="Resume" Margin="0 5"/>
+                <ListView x:Name="task2" Margin="0 20 0 0"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock DockPanel.Dock="Left" Text="Task 3" HorizontalAlignment="Center" FontSize="20"/>
+                <Button x:Name="stop3" Content="Stop" Margin="0 5"/>
+                <Button x:Name="pause3" Content="Pause" Margin="0 5"/>
+                <Button x:Name="resume3" Content="Resume" Margin="0 5"/>
+                <ListView x:Name="task3" Margin="0 20 0 0"/>
+            </StackPanel>
+        </UniformGrid>
+        
+        <ListView x:Name="task1" HorizontalContentAlignment="Center" Margin="0 20 0 0"/>
+    </DockPanel>
+</Window>
