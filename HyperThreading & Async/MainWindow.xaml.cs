@@ -24,7 +24,6 @@ namespace HyperThreading___Async
         public static int to;
         
         int lastInT1;
-        List<int> simpleNums = new List<int>();
 
         int olderInT2 = 1;
         int lastInT2 = 1;
@@ -63,6 +62,18 @@ namespace HyperThreading___Async
 
         private void StartButton(object sender, RoutedEventArgs e)
         {
+            cts1.Cancel();
+            cts2.Cancel();
+
+            cts1 = new CancellationTokenSource();
+            cts2 = new CancellationTokenSource();
+
+            token1 = cts1.Token;
+            token2 = cts2.Token;
+
+            Task1 = new Thread(AddT1);
+            Task2 = new Thread(AddT2);
+
             stop1.IsEnabled = true;
             stop2.IsEnabled = true;
 
@@ -82,9 +93,15 @@ namespace HyperThreading___Async
                 to = tmp;
             }
 
-            simpleNums = GenSimpleNum(from, to);
+            lastInT1 = from;
 
-            //Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(from, to), token1));
+            olderInT2 = 1;
+            lastInT2 = 1;
+
+            task1.Items.Clear();
+            task2.Items.Clear();
+
+            Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(from, to), token1));
             Task2.Start(new KeyValuePair<int, CancellationToken>(lastInT2, token2));
         }
 
@@ -108,14 +125,21 @@ namespace HyperThreading___Async
             var tmp = (KeyValuePair<KeyValuePair<int, int>, CancellationToken>)obj;
             while(tmp.Value.IsCancellationRequested == false)
             {
-                Application.Current.Dispatcher.Invoke(new Action(() =>
+                for (int i = lastInT1; i <= to; i++)
                 {
-                    for (int i = lastInT1; i < simpleNums.Count; i++)
+                    if(tmp.Value.IsCancellationRequested == true) break;
+                    if(IsSimpleNum(i) == true)
                     {
-                        task1.Items.Add(simpleNums[i]);
-                        Thread.Sleep(1000);
+                        lastInT1 = i;
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            lastInT1 = i;
+                            task1.Items.Add(i);
+                        }));
+                    Thread.Sleep(1000);
                     }
-                }));
+                }
+                return;
             }
         }
 
@@ -126,21 +150,12 @@ namespace HyperThreading___Async
             return sum;
         }
 
-        private List<int> GenSimpleNum(int from, int to)
+        private bool IsSimpleNum(int num)
         {
-            List<int> arr = new List<int>();
-            for (int i = from; i <= to; i++)
-            {
-                for (int j = 2; j <= Math.Sqrt(i); j++)
-                {
-                    if (i % j == 0) break;
-                    else
-                    {
-                        arr.Add(i);
-                        break;
-                    }
-                }
-            } return arr;
+            for (int i = 2; i <= Math.Sqrt(num); i++)
+                if (num % i == 0) return false;
+
+            return true;
         }
 
         private int GetRandom(int a, int b) => new Random().Next(a, b);
@@ -160,8 +175,9 @@ namespace HyperThreading___Async
             cts1 = new CancellationTokenSource();
             token1 = cts1.Token;
 
+            ++lastInT1;
             Task1 = new Thread(AddT1);
-            Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(lastInT2, to), token1));
+            Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(lastInT1, to), token1));
         }
 
         private void StopButton2(object sender, RoutedEventArgs e)
@@ -174,7 +190,7 @@ namespace HyperThreading___Async
 
         private void PauseButton2(object sender, RoutedEventArgs e)
         { 
-            lastInT1 = simpleNums.IndexOf(simpleNums.LastOrDefault());
+            lastInT2 = (int)task2.Items[task2.Items.Count - 1];
             cts2.Cancel();
         }
 
