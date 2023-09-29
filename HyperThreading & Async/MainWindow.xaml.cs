@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,20 +24,19 @@ namespace HyperThreading___Async
         public static int to;
         
         int lastInT1;
-        int lastInT2;
-        int lastInT3;
+        List<int> simpleNums = new List<int>();
+
+        int olderInT2 = 1;
+        int lastInT2 = 1;
 
         Thread Task1;
         Thread Task2;
-        Thread Task3;
 
         CancellationTokenSource cts1 = new CancellationTokenSource();
         CancellationTokenSource cts2 = new CancellationTokenSource();
-        CancellationTokenSource cts3 = new CancellationTokenSource();
 
         CancellationToken token1;
         CancellationToken token2;
-        CancellationToken token3;
 
         public MainWindow()
         {
@@ -44,42 +44,33 @@ namespace HyperThreading___Async
 
             stop1.IsEnabled = false;
             stop2.IsEnabled = false;
-            stop3.IsEnabled = false;
 
             pause1.IsEnabled = false;
             pause2.IsEnabled = false;
-            pause3.IsEnabled = false;
 
             resume1.IsEnabled = false;
             resume2.IsEnabled = false;
-            resume3.IsEnabled = false;
 
             Task1 = new Thread(AddT1);
             Task2 = new Thread(AddT2);
-            Task3 = new Thread(AddT3);
 
             Task1.IsBackground = true;
             Task2.IsBackground = true;
-            Task3.IsBackground = true;
 
             token1 = cts1.Token;
-            token2 = cts2.Token;
             token2 = cts2.Token;
         }
 
         private void StartButton(object sender, RoutedEventArgs e)
         {
             stop1.IsEnabled = true;
-            //stop2.IsEnabled = true;
-            //stop3.IsEnabled = true;
+            stop2.IsEnabled = true;
 
             pause1.IsEnabled = true;
-            //pause2.IsEnabled = true;
-            //pause3.IsEnabled = true;
+            pause2.IsEnabled = true;
 
             resume1.IsEnabled = true;
-            //resume2.IsEnabled = true;
-            //resume3.IsEnabled = true;
+            resume2.IsEnabled = true;
 
             from = Convert.ToInt32(fromTbx.Text);
             to = Convert.ToInt32(toTbx.Text);
@@ -91,17 +82,25 @@ namespace HyperThreading___Async
                 to = tmp;
             }
 
-            Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(from, to), token1));
-        }
+            simpleNums = GenSimpleNum(from, to);
 
-        private void AddT3(object obj)
-        {
-
+            //Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(from, to), token1));
+            Task2.Start(new KeyValuePair<int, CancellationToken>(lastInT2, token2));
         }
 
         private void AddT2(object obj)
         {
-
+            var tmp = (KeyValuePair<int, CancellationToken>)obj;
+            lastInT2 = tmp.Key;
+            while(tmp.Value.IsCancellationRequested == false)
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() =>
+                { 
+                    task2.Items.Add(lastInT2);
+                    lastInT2 = GetFibonachi();
+                }));
+                Thread.Sleep(1000);
+            }
         }
 
         private void AddT1(object obj)
@@ -110,33 +109,41 @@ namespace HyperThreading___Async
             while(tmp.Value.IsCancellationRequested == false)
             {
                 Application.Current.Dispatcher.Invoke(new Action(() =>
-                { 
-                    task1.Items.Add(GetRandom(tmp.Key.Key, tmp.Key.Value));
+                {
+                    for (int i = lastInT1; i < simpleNums.Count; i++)
+                    {
+                        task1.Items.Add(simpleNums[i]);
+                        Thread.Sleep(1000);
+                    }
                 }));
-                Thread.Sleep(1000);
             }
         }
 
-        private int GetRandom(int a, int b)
+        private int GetFibonachi()
         {
-            return new Random().Next(a, b);
+            int sum = olderInT2 + lastInT2;
+            olderInT2 = lastInT2;
+            return sum;
         }
 
-        private static List<int> GenSimpleNum(object obj)
+        private List<int> GenSimpleNum(int from, int to)
         {
-            List<int> list = new();
+            List<int> arr = new List<int>();
             for (int i = from; i <= to; i++)
             {
-                for (int j = 2; j <= to; j++)
+                for (int j = 2; j <= Math.Sqrt(i); j++)
                 {
                     if (i % j == 0) break;
                     else
                     {
-                        list.Add(i);
+                        arr.Add(i);
+                        break;
                     }
                 }
-            } return list;
+            } return arr;
         }
+
+        private int GetRandom(int a, int b) => new Random().Next(a, b);
 
         private void StopButton1(object sender, RoutedEventArgs e)
         {
@@ -146,11 +153,7 @@ namespace HyperThreading___Async
             cts1.Cancel();
         }
 
-        private void PauseButton1(object sender, RoutedEventArgs e)
-        {
-            cts1.Cancel();
-            lastInT1 = Convert.ToInt32(task1.Items.OfType<ListViewItem>().LastOrDefault());
-        }
+        private void PauseButton1(object sender, RoutedEventArgs e) => cts1.Cancel();
 
         private void ResumeButton1(object sender, RoutedEventArgs e)
         {
@@ -158,7 +161,30 @@ namespace HyperThreading___Async
             token1 = cts1.Token;
 
             Task1 = new Thread(AddT1);
-            Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(from, to), token1));
+            Task1.Start(new KeyValuePair<KeyValuePair<int, int>, CancellationToken>(new KeyValuePair<int, int>(lastInT2, to), token1));
+        }
+
+        private void StopButton2(object sender, RoutedEventArgs e)
+        {
+            pause2.IsEnabled = false;
+            resume2.IsEnabled = false;
+
+            cts2.Cancel();
+        }
+
+        private void PauseButton2(object sender, RoutedEventArgs e)
+        { 
+            lastInT1 = simpleNums.IndexOf(simpleNums.LastOrDefault());
+            cts2.Cancel();
+        }
+
+        private void ResumeButton2(object sender, RoutedEventArgs e)
+        {
+            cts2 = new CancellationTokenSource();
+            token2 = cts2.Token;
+
+            Task2 = new Thread(AddT2);
+            Task2.Start(new KeyValuePair<int, CancellationToken>(lastInT2, token2));
         }
     }
 }

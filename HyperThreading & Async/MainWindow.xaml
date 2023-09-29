@@ -29,7 +29,7 @@
             <Button Content="Start" Click="StartButton"/>
         </UniformGrid>
 
-        <UniformGrid DockPanel.Dock="Top" Columns="3" Margin="0 20 0 0">
+        <UniformGrid DockPanel.Dock="Top" Columns="2" Margin="0 20 0 0">
             <StackPanel Margin="0 0 5 0">
                 <TextBlock DockPanel.Dock="Left" Text="Task 1" HorizontalAlignment="Center" FontSize="20"/>
                 <Button x:Name="stop1" Content="Stop" Margin="0 5" Click="StopButton1"/>
@@ -39,21 +39,17 @@
 
             <StackPanel Margin="0 0 5 0">
                 <TextBlock DockPanel.Dock="Left" Text="Task 2" HorizontalAlignment="Center" FontSize="20"/>
-                <Button x:Name="stop2" Content="Stop" Margin="0 5"/>
-                <Button x:Name="pause2" Content="Pause" Margin="0 5"/>
-                <Button x:Name="resume2" Content="Resume" Margin="0 5"/>
-                <ListView x:Name="task2" Margin="0 20 0 0"/>
-            </StackPanel>
-
-            <StackPanel>
-                <TextBlock DockPanel.Dock="Left" Text="Task 3" HorizontalAlignment="Center" FontSize="20"/>
-                <Button x:Name="stop3" Content="Stop" Margin="0 5"/>
-                <Button x:Name="pause3" Content="Pause" Margin="0 5"/>
-                <Button x:Name="resume3" Content="Resume" Margin="0 5"/>
-                <ListView x:Name="task3" Margin="0 20 0 0"/>
+                <Button x:Name="stop2" Content="Stop" Margin="0 5" Click="StopButton2"/>
+                <Button x:Name="pause2" Content="Pause" Margin="0 5" Click="PauseButton2"/>
+                <Button x:Name="resume2" Content="Resume" Margin="0 5" Click="ResumeButton2"/>
             </StackPanel>
         </UniformGrid>
-        
-        <ListView x:Name="task1" HorizontalContentAlignment="Center" Margin="0 20 0 0"/>
+
+        <DockPanel Margin="0 20 0 0">
+            <UniformGrid Rows="1">
+                <ListView DockPanel.Dock="Left" x:Name="task1" HorizontalContentAlignment="Center"/>
+                <ListView DockPanel.Dock="Left" x:Name="task2" HorizontalContentAlignment="Center"/>
+            </UniformGrid>
+        </DockPanel>
     </DockPanel>
 </Window>
