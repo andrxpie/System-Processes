@@ -7,7 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="140" Width="300">
     <StackPanel>
-        <TextBox x:Name="tbx" Margin="0 40 0 10"/>
-        <Button>Submit</Button>
+        <UniformGrid Rows="2" Margin="10 10">
+            <TextBlock Text="Words" HorizontalAlignment="Center"/>
+            <TextBlock Text="Lines" HorizontalAlignment="Center"/>
+            <TextBlock Text="Punctuations" HorizontalAlignment="Center"/>
+
+            <TextBlock x:Name="wordsTb" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="linesTb" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="punctuationTb" HorizontalAlignment="Center"/>
+        </UniformGrid>
+        
+        <TextBox x:Name="tbx" Margin="0 0 0 10"/>
+        <Button Click="SubmitButton">Submit</Button>
     </StackPanel>
 </Window>

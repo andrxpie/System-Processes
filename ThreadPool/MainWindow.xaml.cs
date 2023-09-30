@@ -26,30 +26,49 @@ namespace ThreadPool
 
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
+        }
 
+        private void SubmitButton(object sender, RoutedEventArgs e)
+        {
             Stat statistic = new();
             string[] files = Directory.GetFiles(tbx.Text, "*.txt");
             Thread[] threads = new Thread[files.Length];
 
             for (int i = 0; i < files.Length; i++)
-            {
-                threads[i].Start(File.ReadAllText(files[i]));
+                threads[i] = new Thread(TextAnalyze);
 
-            }
+            for (int i = 0; i < files.Length; i++)
+                threads[i].Start(new KeyValuePair<Stat, string>(statistic, files[i]));
 
             for (int i = 0; i < files.Length; i++)
                 threads[i].Join();
+
+            ++statistic.Words;
+            ++statistic.Lines;
+
+            wordsTb.Text = statistic.Words.ToString();
+            linesTb.Text = statistic.Lines.ToString();
+            punctuationTb.Text = statistic.Punctuation.ToString();
         }
 
-        static void TextAnalyze(object stat)
+        static void TextAnalyze(object obj)
         {
+            var tmp = (KeyValuePair<Stat, string>)obj;
+            string text = File.ReadAllText(tmp.Value);
             lock (typeof(Stat))
             {
-                ((Stat)stat).Lines = 
+                tmp.Key.Lines += text.Count(x => x == '\n');
+                tmp.Key.Words += text.Count(x => x == ' ' || x == '\n');
+                tmp.Key.Punctuation += text.Count(x => x == '.' || x == '-'  || x == '_'  ||
+                                                       x == ',' || x == '!'  || x == '?'  ||
+                                                       x == ';' || x == '\"' || x == '\'' ||
+                                                       x == ':' || x == '('  || x == ')'  ||
+                                                       x == '{' || x == '}'  || x == '['  ||
+                                                       x == ']' || x == '<'  || x == '>'  ||
+                                                       x == '/' || x == '\\');
             }
         }
     }
