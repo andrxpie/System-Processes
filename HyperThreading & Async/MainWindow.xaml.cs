@@ -31,8 +31,8 @@ namespace HyperThreading___Async
         Thread Task1;
         Thread Task2;
 
-        CancellationTokenSource cts1 = new CancellationTokenSource();
-        CancellationTokenSource cts2 = new CancellationTokenSource();
+        CancellationTokenSource cts1;
+        CancellationTokenSource cts2;
 
         CancellationToken token1;
         CancellationToken token2;
@@ -50,14 +50,9 @@ namespace HyperThreading___Async
             resume1.IsEnabled = false;
             resume2.IsEnabled = false;
 
-            Task1 = new Thread(AddT1);
-            Task2 = new Thread(AddT2);
-
             Task1.IsBackground = true;
             Task2.IsBackground = true;
 
-            token1 = cts1.Token;
-            token2 = cts2.Token;
         }
 
         private void StartButton(object sender, RoutedEventArgs e)

@@ -82,7 +82,7 @@ namespace ThreadSync
             for (int i = 0; i < 10; i++)
                 pairs.Add(new Pair { a = rnd.Next(1, 10), b = rnd.Next(1, 10)});
 
-            string json = JsonSerializer.Serialize<List<Pair>>(pairs);
+            string json = JsonSerializer.Serialize(pairs);
             File.Create(path1);
             File.WriteAllText(path1, json);
             ev.Reset();

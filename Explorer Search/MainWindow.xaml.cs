@@ -56,7 +56,7 @@ namespace Explorer_Search
         {
             CommonOpenFileDialog ofd = new()
             {
-                IsFolderPicker= true
+                IsFolderPicker = true
             };
 
             if(ofd.ShowDialog() == CommonFileDialogResult.Ok ) { vm.To = ofd.FileName; }
