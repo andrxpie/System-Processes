@@ -22,7 +22,12 @@ namespace Explorer_Search
     {
         public string FileName { get; set; }
         public string FilePath { get; set; }
-        public int DuplicatesCount { get; set; } = 0;
+        public static int DuplicatesCount { get; set; } = 0;
+
+        public override string ToString()
+        {
+            return FileName;
+        }
     }
 
     public partial class MainWindow : Window
@@ -37,19 +42,39 @@ namespace Explorer_Search
 
         private async void SearchButton(object sender, RoutedEventArgs e)
         {
-            Result res = await Search();
-            resultList.Items.Add(res);
+            List<Result> res = await Search(searchWord.Text);
+            foreach (var result in res)
+                foundFiles.Items.Add(result);
         }
 
-        private async Task<Result> Search()
+        private async Task<List<Result>> Search(string text)
         {
-            Result res = new();
-            await Task<Result>.Run(() =>
+            List<Result> res = new();
+            await Task<List<Result>>.Run(async () =>
             {
-                
+                List<string> files = Directory.GetFiles(vm.To, "*.txt", SearchOption.AllDirectories).ToList();
+
+                foreach (string file in files)
+                {
+                    int count = await SearchWord(file, text);
+                    if (count > 0)
+                    {
+                        res.Add(new Result { FileName = System.IO.Path.GetFileName(file), FilePath = file } );
+                        Result.DuplicatesCount += count;
+                    }
+                }
             });
 
             return res;
+        }
+
+        private async Task<int> SearchWord(string filepath, string text)
+        {
+            int duplicates = 0;
+
+            duplicates += (await File.ReadAllTextAsync(filepath)).Split(text).Count() - 1;
+
+            return duplicates;
         }
 
         private void ChooseButton(object sender, RoutedEventArgs e)
@@ -60,6 +85,12 @@ namespace Explorer_Search
             };
 
             if(ofd.ShowDialog() == CommonFileDialogResult.Ok ) { vm.To = ofd.FileName; }
+        }
+
+        private void FileSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            resultFilePath.Text = ((Result)foundFiles.SelectedItem).FilePath;
+            resultWordDuplicates.Text = Result.DuplicatesCount.ToString();
         }
     }
 }

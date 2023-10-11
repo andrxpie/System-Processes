@@ -24,17 +24,15 @@
 
         <Button Content="Search" Click="SearchButton"/>
 
-        <TextBlock Text="File name" HorizontalAlignment="Left" FontSize="16" Margin="0 10 0 0"/>
-        <TextBox x:Name="resultFileName" VerticalContentAlignment="Bottom" IsReadOnly="True" Margin="0 0 0 10"/>
+        <TextBlock Text="Files found" HorizontalAlignment="Left" FontSize="16" Margin="0 10 0 0"/>
+        <ComboBox Name="foundFiles" IsReadOnly="True" SelectionChanged="FileSelectionChanged"/>
         
-        <TextBlock Text="File path" HorizontalAlignment="Left" FontSize="16"/>
+        <TextBlock Text="File path" HorizontalAlignment="Left" FontSize="16" Margin="0 10 0 0"/>
         <TextBox x:Name="resultFilePath" VerticalContentAlignment="Bottom" IsReadOnly="True" Margin="0 0 0 10"/>
         
         <TextBlock Text="Count of duplicates" HorizontalAlignment="Left" FontSize="16"/>
         <TextBox x:Name="resultWordDuplicates" VerticalContentAlignment="Bottom" IsReadOnly="True" Margin="0 0 0 10"/>
 
         <ProgressBar x:Name="pbar" Height="15"/>
-
-        <ListView x:Name="resultList" Margin="0 20"/>
     </StackPanel>
 </Window>
