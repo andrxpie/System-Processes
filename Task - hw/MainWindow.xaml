@@ -1,0 +1,38 @@
+﻿<Window x:Class="Task___hw.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Task___hw"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" FontFamily="Cascadia Code">
+    <StackPanel Margin="20">
+        <TextBlock Text="Task - hw" HorizontalAlignment="Center" FontSize="20" Margin="0 0 0 20"/>
+
+        <StackPanel Width="300">
+            <Border BorderBrush="Gray" BorderThickness="1">
+                <TextBlock Text="Text" FontSize="15" Margin="1"/>
+            </Border>
+            
+            <TextBox x:Name="text" Margin="0 5 0 0" TextWrapping="Wrap" Background="WhiteSmoke" MinLines="4" MaxLines="4" FontSize="13" VerticalAlignment="Bottom"/>
+        </StackPanel>
+
+        <UniformGrid Columns="2" Rows="3" Margin="0 20 0 20" Width="300">
+            <CheckBox x:Name="sentensesCBX" Content="Sentenses" IsChecked="True" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"/>
+            <CheckBox x:Name="symbolsCBX" Content="Symbols" IsChecked="True" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"/>
+            <CheckBox x:Name="wordsCBX" Content="Words" IsChecked="True" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"/>
+            <CheckBox x:Name="asksCBX" Content="Asks" IsChecked="True" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"/>
+            <CheckBox x:Name="exclamatoriesCBX" Content="Exclamatories" IsChecked="True" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"/>
+        </UniformGrid>
+
+        <Button Content="Analyse" Width="300" Click="AnalysClick"/>
+
+        <UniformGrid Columns="2" Rows="3" Margin="0 20 0 20" Width="300">
+            <TextBlock x:Name="sentensesTBX" Text="Sentenses:"/>
+            <TextBlock x:Name="symbolsTBX" Text="Symbols:" HorizontalAlignment="Right"/>
+            <TextBlock x:Name="wordsTBX" Text="Words:"/>
+            <TextBlock x:Name="asksTBX" Text="Asks:" HorizontalAlignment="Right"/>
+            <TextBlock x:Name="exclamatoriesTBX" Text="Exclamatories:"/>
+        </UniformGrid>
+    </StackPanel>
+</Window>
