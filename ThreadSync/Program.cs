@@ -5,8 +5,8 @@ namespace ThreadSync
 {
     class Pair
     {
-        public int a;
-        public int b;
+        public int a { get; set; }
+        public int b { get; set; }
     }
 
     internal class Program
@@ -14,6 +14,7 @@ namespace ThreadSync
         static string path1 = "C:\\Users\\dev.STEP\\source\\repos\\file1.txt";
         static string path2 = "C:\\Users\\dev.STEP\\source\\repos\\file2.txt";
         static string path3 = "C:\\Users\\dev.STEP\\source\\repos\\file3.txt";
+
         static void Main(string[] args)
         {
             //Semaphore sm = new Semaphore(3, 3);
@@ -23,15 +24,11 @@ namespace ThreadSync
 
             //Console.ReadKey();
 
-            AutoResetEvent are = new AutoResetEvent(true);
+            AutoResetEvent are = new AutoResetEvent(false);
 
-            ThreadPool.QueueUserWorkItem(MethodGenerate, are);
-           
-
-            ThreadPool.QueueUserWorkItem(MethodAdd, are);
-            
-
-            ThreadPool.QueueUserWorkItem(MethodMultiply, are);
+            Task.Run(() => MethodGenerate(are));
+            Task.Run(() => MethodAdd(are));
+            Task.Run(() => MethodMultiply(are));
 
             Console.ReadKey();
         }
@@ -40,25 +37,28 @@ namespace ThreadSync
         {
             EventWaitHandle ev = (EventWaitHandle)obj;
             
+            ev.WaitOne();
             var fs = new FileStream(path1, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-            List<Pair> pairs = JsonSerializer.Deserialize<List<Pair>>(new StreamReader(fs).ReadToEnd());
+            List<Pair> pairs = JsonSerializer.Deserialize<List<Pair>>(fs);
             List<int> multiplyedPairs = new();
 
             foreach (var pair in pairs)
                 multiplyedPairs.Add(pair.a * pair.b);
 
-            string json = JsonSerializer.Serialize<List<Pair>>(pairs);
-            File.Create(path3);
+            string json = JsonSerializer.Serialize(multiplyedPairs, new JsonSerializerOptions { IncludeFields = true });
+            Console.WriteLine(json);
+            File.Create(path3).Close();
             File.WriteAllText(path3, json);
 
-            ev.Reset();
+            ev.Set();
         }
 
         static void MethodAdd(object obj)
         {
             EventWaitHandle ev = (EventWaitHandle)obj;
 
+            ev.WaitOne();
             var fs = new FileStream(path1, FileMode.Open, FileAccess.Read, FileShare.Read);
             List<Pair> pairs = JsonSerializer.Deserialize<List<Pair>>(new StreamReader(fs).ReadToEnd());
             List<int> addedPairs = new();
@@ -66,11 +66,12 @@ namespace ThreadSync
             foreach (var pair in pairs)
                 addedPairs.Add(pair.a + pair.b);
 
-            string json = JsonSerializer.Serialize<List<Pair>>(pairs);
-            File.Create(path2);
+            string json = JsonSerializer.Serialize(addedPairs, new JsonSerializerOptions { IncludeFields = true });
+            Console.WriteLine(json);
+            File.Create(path2).Close();
             File.WriteAllText(path2, json);
 
-            ev.Reset();
+            ev.Set();
         }
         
         static void MethodGenerate(object obj)
@@ -82,10 +83,11 @@ namespace ThreadSync
             for (int i = 0; i < 10; i++)
                 pairs.Add(new Pair { a = rnd.Next(1, 10), b = rnd.Next(1, 10)});
 
-            string json = JsonSerializer.Serialize(pairs);
-            File.Create(path1);
+            string json = JsonSerializer.Serialize<List<Pair>>(pairs, new JsonSerializerOptions { IncludeFields = true });
+            Console.WriteLine(json);
+            File.Create(path1).Close();
             File.WriteAllText(path1, json);
-            ev.Reset();
+            ev.Set();
         }
 
         static void Method(object obj)
