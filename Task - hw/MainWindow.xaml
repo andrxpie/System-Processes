@@ -25,7 +25,9 @@
             <CheckBox x:Name="exclamatoriesCBX" Content="Exclamatories" IsChecked="True" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center"/>
         </UniformGrid>
 
-        <Button Content="Analyse" Width="300" Click="AnalysClick"/>
+        <Button x:Name="start" Content="Analyse" Width="300" Click="AnalysClick"/>
+        <Button x:Name="stop" Content="Stop" IsEnabled="False" Width="300" Margin="0 2 0 0" Click="StopClick"/>
+        <Button x:Name="restart" Content="Restart" IsEnabled="False" Width="300" Margin="0 2 0 0" Click="RestartClick"/>
 
         <UniformGrid Columns="2" Rows="3" Margin="0 20 0 20" Width="300">
             <TextBlock x:Name="sentensesTBX" Text="Sentenses:"/>
