@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace Task___hw__4__5_
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public string source { get; set; }
@@ -47,21 +44,25 @@ namespace Task___hw__4__5_
                 foreach (var path in sourceFilesPaths)
                     sourceFiles.Add(System.IO.Path.GetFileName(path));
 
-                var duplicateFiles = sourceFiles.GroupBy(x => x).Where(x => x.Count() > 1).Select(x => x.Key);
-
-                if (duplicateFiles.Any())
+                IEnumerable<string> duplicateFiles;
+                Task.Run(() => 
                 {
-                    File.Create("log.txt").Close();
-                    
-                    foreach(var file in duplicateFiles)
-                    {
-                        File.WriteAllText("log.txt", file + "\n");
+                    duplicateFiles = sourceFiles.GroupBy(x => x).Where(x => x.Count() > 1).Select(x => x.Key);
 
-                        if(!Directory.Exists(copyDirectory))
-                            Directory.CreateDirectory(copyDirectory);
-                        File.Copy(sourceFilesPaths.Where(x => System.IO.Path.GetFileName(x) == file).FirstOrDefault(), System.IO.Path.Combine(copyDirectory, file));
+                    if (duplicateFiles.Any())
+                    {
+                        File.Create("log.txt").Close();
+                        
+                        foreach(var file in duplicateFiles)
+                        {
+                            File.WriteAllText("log.txt", file + "\n");
+
+                            if(!Directory.Exists(copyDirectory))
+                                Directory.CreateDirectory(copyDirectory);
+                            File.Copy(sourceFilesPaths.Where(x => System.IO.Path.GetFileName(x) == file).FirstOrDefault(), System.IO.Path.Combine(copyDirectory, file));
+                        }
                     }
-                }
+                });
 
                 if(CBX.IsChecked == true)
                     Process.Start("notepad.exe", "files.txt");
